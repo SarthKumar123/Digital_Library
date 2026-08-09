@@ -1,0 +1,57 @@
+package com.digitallibrary.backend.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "borrow_records")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BorrowRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /**
+     * THIS is the important new concept: a relationship between two
+     * tables.
+     *
+     * @ManyToOne means: MANY borrow records can point to ONE user.
+     * (Rahul can have borrowed 5 different books -> 5 BorrowRecord
+     * rows, all pointing back to the same User row.)
+     *
+     * Behind the scenes, Hibernate adds a "user_id" column to the
+     * borrow_records table -- a foreign key referencing users.id.
+     * @JoinColumn lets us control that column's exact name.
+     *
+     * fetch = LAZY means: when we load a BorrowRecord, DON'T
+     * automatically also load the full User from the database --
+     * only fetch it if our code actually asks for
+     * borrowRecord.getUser(). This avoids wastefully loading data
+     * we don't need. (EAGER, the other option, always loads it
+     * immediately -- usually worse for performance.)
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
+
+    private LocalDate borrowedOn;
+
+    private LocalDate dueDate;
+
+    /** null while the book is still out; filled in once returned */
+    private LocalDate returnedOn;
+
+    /** e.g. "BORROWED", "RETURNED", "OVERDUE" */
+    private String status = "BORROWED";
+}

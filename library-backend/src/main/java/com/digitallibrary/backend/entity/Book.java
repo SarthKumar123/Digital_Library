@@ -1,0 +1,180 @@
+package com.digitallibrary.backend.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+@Table(name = "books")
+public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+   
+
+    @NotBlank(message = "Title is required")
+    @Column(nullable = false)
+    private String title;
+
+    @NotBlank(message = "Author is required")
+    @Column(nullable = false)
+    private String author;
+
+    private String category;
+
+    @Column(unique = true)
+    private String isbn;
+
+    private String publisher;
+
+    private String language;
+
+    private Integer pages;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    private Integer totalCopies;
+
+    private Integer availableCopies;
+
+    private String coverColor;
+    
+    private String imageUrl;
+
+  
+	// JPA requires a no-args constructor -- Hibernate uses this when
+    // loading rows back out of the database.
+    public Book() {
+    }
+
+    public Book(Long id, String title, String author, String category, String isbn,
+                String publisher, String language, Integer pages, String description,
+                Integer totalCopies, Integer availableCopies, String coverColor) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.category = category;
+        this.isbn = isbn;
+        this.publisher = publisher;
+        this.language = language;
+        this.pages = pages;
+        this.description = description;
+        this.totalCopies = totalCopies;
+        this.availableCopies = availableCopies;
+        this.coverColor = coverColor;
+    }
+
+    // ---- Getters and setters ----
+    // This is exactly what @Data used to generate for us automatically.
+    // Every field needs a matching getX()/setX() pair -- Spring and
+    // Jackson (the JSON library) both rely on these to read and write
+    // values, e.g. when converting a Book to JSON for an API response.
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public Integer getPages() {
+        return pages;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getTotalCopies() {
+        return totalCopies;
+    }
+
+    public void setTotalCopies(Integer totalCopies) {
+        this.totalCopies = totalCopies;
+    }
+
+    public Integer getAvailableCopies() {
+        return availableCopies;
+    }
+
+    public void setAvailableCopies(Integer availableCopies) {
+        this.availableCopies = availableCopies;
+    }
+
+    public String getCoverColor() {
+        return coverColor;
+    }
+
+    public void setCoverColor(String coverColor) {
+        this.coverColor = coverColor;
+    }
+    
+    
+    public String getImageUrl() {
+  		return imageUrl;
+  	}
+
+  	public void setImageUrl(String imageUrl) {
+  		this.imageUrl = imageUrl;
+  	}
+
+}

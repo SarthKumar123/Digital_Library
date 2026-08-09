@@ -1,0 +1,16 @@
+# React
+Frontend/node_modules/
+Frontend/dist/
+
+# Spring Boot
+library-backend/target/
+
+# Eclipse
+.metadata/
+.settings/
+.classpath
+.project
+.factorypath
+
+# Logs
+*.log

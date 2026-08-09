@@ -1,0 +1,106 @@
+package com.digitallibrary.backend.controller;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.digitallibrary.backend.dto.BorrowRequest;
+import com.digitallibrary.backend.entity.Book;
+import com.digitallibrary.backend.entity.BorrowRecord;
+import com.digitallibrary.backend.entity.User;
+import com.digitallibrary.backend.repository.BookRepository;
+import com.digitallibrary.backend.repository.BorrowRecordRepository;
+import com.digitallibrary.backend.repository.UserRepository;
+
+@RestController
+@RequestMapping("/api/borrow")
+@CrossOrigin(origins = {
+	    "http://localhost:5173",
+	    "http://localhost:5174",
+	    "http://localhost:5175",
+	    "http://localhost:5178"
+	})
+public class BorrowController {
+
+    @Autowired
+    private BorrowRecordRepository borrowRepo;
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private BookRepository bookRepo;
+
+    
+    @PostMapping
+    public BorrowRecord borrowBook(@RequestBody BorrowRequest request) {
+
+        System.out.println("========== BORROW REQUEST ==========");
+        System.out.println("USER ID = " + request.getUserId());
+        System.out.println("BOOK ID = " + request.getBookId());
+
+        User user = userRepo.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Book book = bookRepo.findById(request.getBookId())
+                .orElseThrow(() -> new RuntimeException("Book not found"));
+
+        System.out.println("USER = " + user.getName());
+        System.out.println("BOOK = " + book.getTitle());
+
+        if (book.getAvailableCopies() <= 0) {
+            throw new RuntimeException("Book not available");
+        }
+
+        book.setAvailableCopies(book.getAvailableCopies() - 1);
+        bookRepo.save(book);
+
+        BorrowRecord record = new BorrowRecord();
+
+        record.setUser(user);
+        record.setBook(book);
+        record.setBorrowedOn(LocalDate.now());
+        record.setDueDate(LocalDate.now().plusDays(14));
+        record.setStatus("BORROWED");
+
+        BorrowRecord savedRecord = borrowRepo.save(record);
+
+        return savedRecord;
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<BorrowRecord> getUserBooks(@PathVariable Long userId) {
+
+        return borrowRepo.findByUserIdAndStatus(userId, "BORROWED");
+    }
+    @PutMapping("/return/{borrowId}")
+    public String returnBook(@PathVariable Long borrowId) {
+
+        BorrowRecord record = borrowRepo.findById(borrowId)
+                .orElseThrow(() -> new RuntimeException("Borrow record not found"));
+
+        if ("RETURNED".equals(record.getStatus())) {
+            return "Book already returned";
+        }
+
+        record.setStatus("RETURNED");
+        record.setReturnedOn(LocalDate.now());
+
+        Book book = record.getBook();
+        book.setAvailableCopies(book.getAvailableCopies() + 1);
+
+        bookRepo.save(book);
+        borrowRepo.save(record);
+
+        return "Book returned successfully";
+    }
+    
+    @GetMapping("/all")
+    public List<BorrowRecord> getAllBorrowRecords() {
+        return borrowRepo.findAll();
+    }
+    
+    
+}

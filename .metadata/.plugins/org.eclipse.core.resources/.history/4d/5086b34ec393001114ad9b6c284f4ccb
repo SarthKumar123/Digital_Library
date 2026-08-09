@@ -1,0 +1,66 @@
+spring.application.name=library-backend
+# ===================================================================
+# DATABASE CONNECTION
+# ===================================================================
+# This is the JDBC URL: it tells Spring "connect to a MySQL server
+# running on localhost, port 3306, and use the database called
+# digital_library". JDBC (Java Database Connectivity) is Java's
+# standard interface for talking to any relational database.
+#
+# createDatabaseIfNotExist=true means: if the "digital_library"
+# database doesn't exist yet, MySQL will create it automatically
+# the first time we connect (handy while learning).
+spring.datasource.url=jdbc:mysql://localhost:3306/digital_library?createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=S@rth!2345
+
+# This tells Spring which driver class to use to actually open the
+# connection. Since mysql-connector-j is on the classpath (we added
+# it in pom.xml), Spring Boot can usually guess this automatically,
+# but it's good practice to be explicit.
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# ===================================================================
+# JPA / HIBERNATE SETTINGS
+# ===================================================================
+# JPA (Jakarta Persistence API) is a *specification* for mapping Java
+# objects to database tables. Hibernate is the actual library that
+# implements that specification -- it's what Spring Data JPA uses
+# under the hood.
+#
+# ddl-auto=update means: whenever the app starts, Hibernate looks at
+# your @Entity classes (we'll write these in Step 4) and automatically
+# creates/updates the matching database tables to match. This is
+# extremely convenient for learning and local development.
+#
+# IMPORTANT: never use "update" (or "create") in a real production
+# app -- you'd use a proper migration tool like Flyway instead, so
+# schema changes are reviewed and version-controlled. For now, while
+# we're learning, "update" is fine.
+spring.jpa.hibernate.ddl-auto=update
+
+# Prints every SQL query Hibernate generates to the console. This is
+# invaluable while learning -- you get to *see* the SQL your Java
+# code produces.
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# Tells Hibernate which "dialect" of SQL to generate. Different
+# databases have slightly different SQL syntax (MySQL vs Postgres vs
+# Oracle) -- the dialect handles those differences for us.
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+
+# ===================================================================
+# SERVER SETTINGS
+# ===================================================================
+# The port your backend will run on. Your React dev server runs on
+# 5173, so we use a different port here to avoid a clash.
+server.port=8080
+
+spring.security.oauth2.client.registration.google.client-id=979400793272-8vjf2f73v379cmto83vubp8tf8uiaupn.apps.googleusercontent.com
+
+spring.security.oauth2.client.registration.google.client-secret=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
+spring.security.oauth2.client.registration.google.scope=openid,profile,email
+
+
+

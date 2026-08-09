@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="java.lang.Class">
+		<item key="replaceBarOpen" value="false"/>
+		<list key="findhistory">
+			<item value="boolean passwordCorrect ="/>
+			<item value="User user = userRepository.findByEmail(request.getEmail())"/>
+			<item value="private BorrowRecordRepository borrowRepo"/>
+			<item value="de"/>
+			<item value="public class BookController"/>
+			<item value="/api/books"/>
+			<item value="user.setPhone(request.getPhone());"/>
+			<item value="getPhone"/>
+			<item value="Phone"/>
+			<item value="oauth"/>
+			<item value="o"/>
+			<item value="id"/>
+			<item value="org.projectlombok"/>
+			<item value="mysql-connector-j"/>
+			<item value="jpa"/>
+		</list>
+	</section>
+</section>

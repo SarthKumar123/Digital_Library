@@ -1,0 +1,40 @@
+package com.digitallibrary.backend.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+/**
+ * TEMPORARY configuration -- just enough to unblock development
+ * while we build out the rest of the app. In Step 7 we'll replace
+ * this with real authentication: JWT tokens for email/password
+ * login, and OAuth2 for "Login with Google".
+ *
+ * Right now, this simply tells Spring Security "don't lock anything
+ * down -- let every request through, no login required".
+ */
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            // Disable CSRF protection. CSRF (Cross-Site Request
+            // Forgery) protection matters for traditional
+            // browser-form-based apps that use cookies for auth.
+            // Since we're building a stateless JSON API (the React
+            // frontend will send a token in a header, not rely on
+            // cookies), CSRF protection isn't the right fit here --
+            // this is standard practice for REST APIs.
+            .csrf(csrf -> csrf.disable())
+
+            // For now: allow every single request through, with no
+            // login required at all. We'll tighten this in Step 7.
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()
+            );
+
+        return http.build();
+    }
+}

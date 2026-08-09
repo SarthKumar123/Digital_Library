@@ -1,0 +1,98 @@
+package com.app.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.app.entity.User;
+import com.app.service.UserService;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+@Controller
+public class LoginController {
+	 	@Autowired
+	    private UserService userService;
+	 	//UserService userService = context.getBean(UserService.class);
+	@GetMapping("/login")
+	public String loginPage() {
+		return "Sucess";
+	}
+	
+	 	
+	@PostMapping("/login")
+	public String login(@RequestParam String email,
+	                    @RequestParam String password
+	                    ,Model model){
+
+	    boolean status = userService.login(email,password);
+
+	    if(status){
+	        model.addAttribute("message","Login Successful");
+	        return "Sucess";
+	    }
+	    else{
+	        model.addAttribute("message","Invalid Email or Password");
+	        return "login";
+	    }
+	}
+	
+	
+	@PostMapping("/signup")
+	public String signup(@ModelAttribute User user) {
+		userService.registerUser(user);
+    
+		    
+		    return "success";
+	}
+	
+	@GetMapping("/signup")
+	public String signupPage() {
+	    return "signup";
+	}
+	@GetMapping("/allusers")
+	public String getUsers(Model model) {
+
+	    List<User> users = userService.getAllUsers();
+
+	    model.addAttribute("myData", users);
+
+	    return "users";
+	}
+	
+	
+	@GetMapping("/edit/{id}")
+	public String editUser(@PathVariable Integer id, Model model) {
+
+	    User user = userService.getUserById(id);
+
+	    model.addAttribute("user", user);
+
+	    return "edit";
+	}
+	
+	@PostMapping("/update")
+	public String updateUser(@ModelAttribute User user) {
+
+	    userService.updateUser(user);
+
+	    return "redirect:/allusers";
+	}
+	
+	@GetMapping("/delete/{id}")
+	public String deleteUser(@PathVariable Integer id) {
+
+	    userService.deleteUser(id);
+
+	    return "redirect:/allusers";
+	}
+	
+	
+	
+}

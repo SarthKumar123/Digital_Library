@@ -1,0 +1,60 @@
+package com.digitallibrary.backend.dto;
+
+//public class BorrowRequest {
+//
+//    private Long userId;
+//    private Long bookId;
+//
+//    public BorrowRequest() {
+//    }
+//
+//    public Long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
+//
+//    public Long getBookId() {
+//        return bookId;
+//    }
+//
+//    public void setBookId(Long bookId) {
+//        this.bookId = bookId;
+//    }
+//}
+public String borrowBook(@RequestBody BorrowRequest request) {
+
+    System.out.println("========== BORROW REQUEST ==========");
+    System.out.println("USER ID = " + request.getUserId());
+    System.out.println("BOOK ID = " + request.getBookId());
+
+    User user = userRepo.findById(request.getUserId())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    Book book = bookRepo.findById(request.getBookId())
+            .orElseThrow(() -> new RuntimeException("Book not found"));
+
+    System.out.println("USER = " + user.getName());
+    System.out.println("BOOK = " + book.getTitle());
+
+    if (book.getAvailableCopies() <= 0) {
+        return "Book not available";
+    }
+
+    book.setAvailableCopies(book.getAvailableCopies() - 1);
+    bookRepo.save(book);
+
+    BorrowRecord record = new BorrowRecord();
+
+    record.setUser(user);
+    record.setBook(book);
+    record.setBorrowedOn(LocalDate.now());
+    record.setDueDate(LocalDate.now().plusDays(14));
+    record.setStatus("BORROWED");
+
+    borrowRepo.save(record);
+
+    return "Book borrowed successfully";
+}

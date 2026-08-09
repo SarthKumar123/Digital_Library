@@ -1,0 +1,95 @@
+package com.digitallibrary.backend.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * @Entity tells Hibernate "this class represents a database table".
+ * By default the table name is the class name lowercased -- so this
+ * becomes a table called "book". (We'll see it appear in MySQL the
+ * moment we run the app with this file added.)
+ *
+ * @Data (from Lombok) auto-generates getters, setters, toString(),
+ * equals(), and hashCode() at compile time, so we don't have to type
+ * them all by hand. Open the "Maven Dependencies" in your project and
+ * you won't find a Book.class with visible getters in the source --
+ * Lombok adds them during compilation.
+ *
+ * @NoArgsConstructor / @AllArgsConstructor generate a constructor
+ * with no arguments, and one with every field, respectively. JPA
+ * *requires* a no-args constructor to exist, because Hibernate
+ * creates objects reflectively (without calling "new Book(...)"
+ * directly) when it loads rows from the database.
+ */
+@Entity
+@Table(name = "books")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Book {
+
+    /**
+     * @Id marks this field as the primary key.
+     * @GeneratedValue(strategy = IDENTITY) tells the database itself
+     * to auto-increment this value every time a new row is inserted
+     * (this is MySQL's native AUTO_INCREMENT behavior).
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "Title is required")
+    @Column(nullable = false)
+    private String title;
+
+    @NotBlank(message = "Author is required")
+    @Column(nullable = false)
+    private String author;
+
+    private String category;
+
+    /**
+     * unique = true tells Hibernate to add a UNIQUE constraint on this
+     * column at the database level -- MySQL itself will reject any
+     * attempt to insert two books with the same ISBN, even if our
+     * Java code has a bug that tries to.
+     */
+    @Column(unique = true)
+    private String isbn;
+
+    private String publisher;
+
+    private String language;
+
+    private Integer pages;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    /** How many total copies the library owns */
+    private Integer totalCopies;
+
+    /** How many copies are currently sitting on the shelf (not borrowed) */
+    private Integer availableCopies;
+
+    /** e.g. an image URL, or a hex color for the cover placeholder */
+    private String coverColor;
+    
+    
+    public Long getId() {
+        return id;
+    }
+
+		Book b = new Book();
+		b.getId();
+}
+
+
+
+
+
+
+

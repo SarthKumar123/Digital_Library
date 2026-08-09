@@ -1,0 +1,37 @@
+package com.digitallibrary.backend.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "fines")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Fine {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    /**
+     * A fine is tied to ONE specific borrow record (the late book).
+     * @OneToOne because each overdue borrow generates at most one
+     * fine -- unlike User/BorrowRecord above, this is a 1-to-1
+     * relationship, not many-to-one.
+     */
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "borrow_record_id")
+    private BorrowRecord borrowRecord;
+
+    private Double amount;
+
+    /** "UNPAID" or "PAID" */
+    private String status = "UNPAID";
+}

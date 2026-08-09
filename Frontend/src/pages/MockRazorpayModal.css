@@ -1,0 +1,216 @@
+.rzp-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 20, 30, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+}
+
+.rzp-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 380px;
+  max-width: 100%;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.rzp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0c2451;
+  padding: 18px 20px;
+}
+
+.rzp-merchant {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rzp-merchant-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #3395ff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.rzp-merchant-name {
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.rzp-amount {
+  color: #a8c4f0;
+  font-size: 17px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.rzp-close {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.rzp-test-badge {
+  background: #fff7e0;
+  color: #8a6a00;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  padding: 6px 10px;
+  letter-spacing: 0.02em;
+}
+
+.rzp-methods {
+  display: flex;
+  border-bottom: 1px solid #eef0f4;
+}
+
+.rzp-method-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 12px 4px;
+  font-size: 11px;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.rzp-method-tab.active {
+  color: #3395ff;
+  border-bottom-color: #3395ff;
+  font-weight: 700;
+}
+
+.rzp-form {
+  padding: 18px 20px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rzp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.rzp-field input,
+.rzp-field select {
+  border: 1px solid #d9dee6;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  color: #1f2937;
+  font-family: inherit;
+  outline: none;
+}
+
+.rzp-field input:focus,
+.rzp-field select:focus {
+  border-color: #3395ff;
+}
+
+.rzp-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.rzp-wallet-note {
+  font-size: 12.5px;
+  color: #6b7280;
+  background: #f7f8fa;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.rzp-pay-btn {
+  background: #3395ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 6px 0 4px;
+}
+
+.rzp-pay-btn:hover {
+  background: #1c7ef0;
+}
+
+.rzp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 10.5px;
+  color: #9aa3af;
+  padding: 12px 16px 16px;
+  text-align: center;
+}
+
+.rzp-status-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 50px 20px 56px;
+  text-align: center;
+}
+
+.rzp-status-view p {
+  margin: 4px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.rzp-status-view span {
+  font-size: 12px;
+  color: #9aa3af;
+}
+
+.rzp-spin {
+  animation: rzp-spin 0.9s linear infinite;
+}
+
+@keyframes rzp-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

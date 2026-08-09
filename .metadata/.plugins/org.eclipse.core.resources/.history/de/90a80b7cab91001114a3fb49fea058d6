@@ -1,0 +1,5 @@
+package com.digitallibrary.backend.dto;
+
+public class UpdateProfileRequest {
+
+}

@@ -1,0 +1,111 @@
+//package com.digitallibrary.backend.dto;
+//
+//import jakarta.validation.constraints.Email;
+//import jakarta.validation.constraints.NotBlank;
+//import jakarta.validation.constraints.Size;
+//
+///**
+// * A DTO (Data Transfer Object) is a plain class whose only job is to
+// * define the exact shape of data going in/out of an API endpoint --
+// * it's NOT an @Entity, so it has nothing to do with the database
+// * directly.
+// *
+// * Why not just reuse the User entity for this? Because the User
+// * entity has fields like "role" and "googleAccount" that a signup
+// * request should never be able to set directly (imagine someone
+// * sending {"role": "ADMIN"} in their signup request!). A dedicated
+// * SignupRequest class only exposes exactly the fields we want
+// * users to control.
+// */
+//public class SignupRequest {
+//
+//    @NotBlank
+//    private String name;
+//
+//    @Email
+//    @NotBlank
+//    private String email;
+//
+//    @NotBlank
+//    @Size(min = 6, message = "Password must be at least 6 characters")
+//    private String password;
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+//}
+
+package com.digitallibrary.backend.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public class SignupRequest {
+
+    @NotBlank
+    private String name;
+
+    @Email
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    private String phone;
+
+    @NotBlank
+    @Size(min = 6, message = "Password must be at least 6 characters")
+    private String password;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}

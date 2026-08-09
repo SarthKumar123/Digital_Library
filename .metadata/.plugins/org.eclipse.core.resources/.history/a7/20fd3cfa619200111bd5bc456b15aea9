@@ -1,0 +1,132 @@
+package com.digitallibrary.backend.controller;
+
+import com.digitallibrary.backend.entity.Book;
+import com.digitallibrary.backend.repository.BookRepository;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * @RestController is @Controller + @ResponseBody combined. It means:
+ *  1. Spring will route incoming HTTP requests to methods in this
+ *     class based on the @GetMapping/@PostMapping annotations below.
+ *  2. Whatever a method returns gets automatically converted to JSON
+ *     and written to the HTTP response body (using a library called
+ *     Jackson, which Spring Boot wires up for you automatically).
+ *
+ * @RequestMapping("/api/books") sets a common URL prefix for every
+ * endpoint in this class -- so @GetMapping("") below actually means
+ * "GET /api/books".
+ */
+@RestController
+@RequestMapping("/api/books")
+public class BookController {
+
+    /**
+     * This is DEPENDENCY INJECTION -- probably the single most
+     * important Spring concept. We don't write
+     * "new BookRepository()" anywhere. Instead, we just declare that
+     * this class NEEDS a BookRepository, and Spring hands us the one
+     * it already created (remember, that's the dynamic proxy
+     * implementation we talked about earlier) automatically when
+     * this controller is constructed.
+     *
+     * @Autowired on the constructor tells Spring "call this
+     * constructor, and figure out what to pass in yourself".
+     */
+    private final BookRepository bookRepository;
+
+    @Autowired
+    public BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
+    /**
+     * GET /api/books
+     * GET /api/books?category=Fiction
+     * GET /api/books?search=atomic
+     *
+     * @RequestParam pulls values out of the URL's query string.
+     * required = false + a default means these are optional filters.
+     */
+    @GetMapping
+    public List<Book> getAllBooks(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String search
+    ) {
+        if (search != null && !search.isBlank()) {
+            return bookRepository.findByTitleContainingIgnoreCase(search);
+        }
+        if (category != null && !category.isBlank()) {
+            return bookRepository.findByCategory(category);
+        }
+        return bookRepository.findAll();
+    }
+
+    /**
+     * GET /api/books/3
+     *
+     * @PathVariable pulls a value out of the URL path itself
+     * (the "3" in /api/books/3), rather than a query string.
+     *
+     * ResponseEntity<Book> lets us control the HTTP status code
+     * directly -- 200 OK if found, 404 Not Found if not -- instead
+     * of just always returning 200.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+        return bookRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * POST /api/books
+     * Body: raw JSON matching the Book fields, e.g.
+     * { "title": "Dune", "author": "Frank Herbert", ... }
+     *
+     * @RequestBody tells Spring "parse the incoming JSON body into a
+     * Book object for me" (again, Jackson does the actual parsing).
+     *
+     * @Valid triggers the validation annotations we put on the Book
+     * entity itself (@NotBlank on title/author) -- if they fail,
+     * Spring automatically returns a 400 Bad Request with details,
+     * before our method body even runs.
+     */
+    @PostMapping
+    public ResponseEntity<Book> addBook(@Valid @RequestBody Book book) {
+        Book saved = bookRepository.save(book);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+    /**
+     * PUT /api/books/3
+     * Updates an existing book's fields.
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable Long id, @Valid @RequestBody Book updated) {
+        return bookRepository.findById(id)
+                .map(existing -> {
+                    updated.setId(existing.getId()); // keep the same primary key
+                    Book saved = bookRepository.save(updated);
+                    return ResponseEntity.ok(saved);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * DELETE /api/books/3
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        if (!bookRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        bookRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+}

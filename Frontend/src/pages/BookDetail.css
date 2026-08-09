@@ -1,0 +1,391 @@
+.detail-page {
+  padding: 24px 40px 60px;
+}
+
+.detail-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #767767;
+  margin-bottom: 18px;
+}
+
+.detail-book-image {
+  width: 100%;
+  max-width: 320px;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.detail-breadcrumb button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #767767;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+}
+
+.detail-breadcrumb span {
+  color: #3c3c2e;
+  font-weight: 600;
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Cover */
+.detail-cover-card {
+  border: 1px solid #eeeede;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.detail-cover {
+  padding: 28px 20px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.detail-cover-eyebrow {
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.detail-cover-title {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.detail-cover-tagline {
+  font-size: 11px;
+  color: #5c5c4e;
+  line-height: 1.4;
+}
+
+.detail-cover-tagline.dark {
+  color: #efefe0;
+}
+
+.detail-cover-author {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2e2e2e;
+  margin-top: 6px;
+}
+
+.detail-cover-author.dark {
+  color: #efefe0;
+}
+
+.detail-meta-list {
+  padding: 14px 16px;
+  border-top: 1px solid #eeeede;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 12.5px;
+}
+
+.meta-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #767767;
+}
+
+.meta-value {
+  color: #2e2e2e;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Main */
+.detail-main h1 {
+  font-size: 26px;
+  margin: 0 0 4px;
+  color: #1e2014;
+}
+
+.detail-main-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-tagline {
+  font-size: 14px;
+  color: #5c5c4e;
+  margin: 0 0 8px;
+}
+
+.detail-author-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #3c3c2e;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.detail-actions button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #e4e4d4;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  color: #3c3c2e;
+  cursor: pointer;
+}
+
+.detail-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 10px;
+  font-size: 13.5px;
+  color: #3c3c2e;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.detail-status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.status-pill {
+  background: #e7efd8;
+  color: #4c5b2e;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.copies-text {
+  font-size: 13px;
+  color: #767767;
+}
+
+.detail-divider {
+  height: 1px;
+  background: #eeeede;
+  margin: 16px 0;
+}
+
+.detail-meta-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.detail-meta-row .meta-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.detail-main h3 {
+  font-size: 15px;
+  color: #1e2014;
+  margin: 20px 0 8px;
+}
+
+.detail-description {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #4c4c3e;
+}
+
+.detail-takeaways {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-takeaways li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13.5px;
+  color: #3c3c2e;
+}
+
+.detail-quickfacts {
+  margin-top: 20px;
+  background: #f4f6ec;
+  border-radius: 12px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.quickfact-label {
+  font-size: 11.5px;
+  color: #5c5c4e;
+  margin-bottom: 4px;
+}
+
+.quickfact-value {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #3c4a22;
+}
+
+/* Side card */
+.detail-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.side-card {
+  border: 1px solid #eeeede;
+  border-radius: 14px;
+  padding: 20px;
+  background: #fff;
+}
+
+.side-card.confirmed {
+  text-align: center;
+  background: #f4f6ec;
+  border-color: #dfe6c8;
+}
+
+.confirm-check {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #5b6b2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+}
+
+.side-card.confirmed h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: #1e2014;
+}
+
+.side-card.confirmed p {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #5c5c4e;
+}
+
+.side-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+  color: #1e2014;
+  margin: 0 0 14px;
+}
+
+.side-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.side-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: #5c5c4e;
+}
+
+.side-row strong {
+  color: #2e2e2e;
+}
+
+.side-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  padding: 11px 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.side-btn.primary {
+  background: #5b6b2e;
+  color: #fff;
+  border: none;
+}
+
+.side-btn.outline {
+  background: #fff;
+  color: #3c3c2e;
+  border: 1px solid #e4e4d4;
+  margin-bottom: 0;
+}
+
+.login-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #9a9a88;
+  margin: 0;
+}
+
+@media (max-width: 1100px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+  .detail-meta-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .detail-quickfacts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,5 @@
+package com.digitallibrary.backend.entity;
+
+public class Fine {
+
+}

@@ -1,0 +1,259 @@
+.return-page {
+  padding: 24px 40px 60px;
+}
+
+.return-page .detail-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #767767;
+  margin-bottom: 18px;
+}
+
+.return-page .detail-breadcrumb button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #767767;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+}
+
+.return-page .detail-breadcrumb .current {
+  color: #3c3c2e;
+  font-weight: 600;
+}
+
+.return-heading h1 {
+  font-size: 26px;
+  margin: 0 0 4px;
+  color: #1e2014;
+}
+
+.return-heading p {
+  font-size: 13.5px;
+  color: #767767;
+  margin: 0 0 20px;
+}
+
+.return-card {
+  border: 1px solid #eeeede;
+  border-radius: 14px;
+  padding: 24px;
+  background: #fff;
+}
+
+.return-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr 1fr;
+  gap: 28px;
+}
+
+.return-cover {
+  padding: 22px 16px;
+  border-radius: 10px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.return-cover-eyebrow {
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.return-cover-title {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.return-cover-tagline {
+  font-size: 10px;
+  color: #5c5c4e;
+  line-height: 1.4;
+}
+
+.return-cover-tagline.dark {
+  color: #efefe0;
+}
+
+.return-cover-author {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2e2e2e;
+  margin-top: 4px;
+}
+
+.return-cover-author.dark {
+  color: #efefe0;
+}
+
+.return-book-name {
+  margin-top: 14px;
+}
+
+.return-book-name h3 {
+  margin: 0 0 2px;
+  font-size: 16px;
+  color: #1e2014;
+}
+
+.return-book-name p {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #5c5c4e;
+}
+
+.return-category-pill {
+  display: inline-block;
+  background: #f1efe4;
+  color: #4c5b3a;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.return-details-col h4,
+.return-summary-col h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+  color: #5b6b2e;
+  margin: 0 0 16px;
+}
+
+.return-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  color: #5c5c4e;
+  padding: 8px 0;
+}
+
+.return-row strong {
+  color: #2e2e2e;
+  font-weight: 600;
+}
+
+.return-row strong.danger {
+  color: #c1512d;
+}
+
+.return-divider {
+  height: 1px;
+  background: #eeeede;
+  margin: 8px 0;
+}
+
+.return-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.return-total span {
+  font-size: 13.5px;
+  color: #5c5c4e;
+}
+
+.return-total strong {
+  font-size: 26px;
+  color: #c1512d;
+}
+
+.fine-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fdf1ea;
+  border: 1px solid #f3ddc9;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 24px;
+}
+
+.fine-banner-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fbe1d3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.fine-banner-text h5 {
+  margin: 0 0 2px;
+  font-size: 13.5px;
+  color: #1e2014;
+}
+
+.fine-banner-text p {
+  margin: 0;
+  font-size: 12.5px;
+  color: #5c5c4e;
+}
+
+.return-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.pay-return-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #5b6b2e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 26px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-return-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: #3c3c2e;
+  border: 1px solid #e4e4d4;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secure-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #9a9a88;
+  margin: 14px 0 0;
+}
+
+@media (max-width: 900px) {
+  .return-grid {
+    grid-template-columns: 1fr;
+  }
+}

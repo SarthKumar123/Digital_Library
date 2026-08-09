@@ -1,0 +1,61 @@
+package com.digitallibrary.backend.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank
+    private String name;
+
+    /**
+     * unique = true -- MySQL enforces no two users can share an email.
+     * This matters a lot once we add login: we'll look users up BY
+     * this email field to check their password.
+     */
+    @Email
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    /**
+     * We will NEVER store a plain-text password here. By the time we
+     * get to Step 7 (Security), this field will hold a BCrypt HASH
+     * of the password -- a one-way scrambled version that can be
+     * checked against, but not reversed back into the original.
+     *
+     * This can be NULL for users who sign in via Google only (they
+     * never set a password with us at all).
+     */
+    private String password;
+
+    /**
+     * Was this account created via Google OAuth2 rather than a
+     * traditional signup form? Useful to know for the UI (e.g. "hide
+     * the change-password option for Google accounts").
+     */
+    private boolean googleAccount = false;
+
+    /**
+     * A simple role field. In Step 7 we'll use this to decide who's
+     * allowed to hit admin-only endpoints (e.g. Add Book).
+     * Values: "USER" or "ADMIN"
+     */
+    private String role = "USER";
+
+    private String phone;
+
+    private String address;
+}

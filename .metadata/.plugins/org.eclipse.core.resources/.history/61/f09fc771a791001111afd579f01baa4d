@@ -1,0 +1,68 @@
+package com.digitallibrary.backend.config;
+
+import com.digitallibrary.backend.entity.User;
+import com.digitallibrary.backend.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+
+/**
+ * Spring Security calls this ONE method automatically the moment
+ * Google login succeeds -- after the whole redirect dance (browser
+ * -> Google -> back to us) is already done, and Spring has already
+ * fetched the user's Google profile for us.
+ *
+ * Our only job here: take that Google profile, and make sure a
+ * matching row exists in OUR OWN users table -- creating one the
+ * first time this person logs in, or just finding the existing one
+ * on every login after that.
+ */
+@Component
+public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public OAuth2LoginSuccessHandler(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                         Authentication authentication) throws IOException {
+
+        // Spring wraps Google's response as an OAuth2User. Google's
+        // profile fields are just a Map under the hood -- we pull
+        // out the two we care about.
+        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+        String email = oauth2User.getAttribute("email");
+        String name = oauth2User.getAttribute("name");
+
+        // Does a user with this email already exist? (Maybe they
+        // signed up normally before, or logged in with Google
+        // before.) If not, create them now.
+        User user = userRepository.findByEmail(email).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setName(name);
+            newUser.setGoogleAccount(true);
+            // No password at all -- this account can ONLY log in via
+            // Google, since there's no hash to check against.
+            newUser.setPassword(null);
+            newUser.setRole("USER");
+            return userRepository.save(newUser);
+        });
+
+        // For now, redirect back to the frontend with the user's id
+        // in the URL as a simple proof-of-concept. Once we add JWT
+        // back in, we'll redirect with a real token instead, so the
+        // frontend can make authenticated requests afterward.
+        response.sendRedirect("http://localhost:5173/oauth-success?userId=" + user.getId());
+    }
+}
