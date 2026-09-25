@@ -1,4 +1,6 @@
-const API_BASE = "http://localhost:8080/api";
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL ||
+  "http://localhost:8080/api";
 
 function adaptBook(backendBook) {
   return {
@@ -50,7 +52,7 @@ function adaptBook(backendBook) {
 =========================== */
 
 export async function fetchBooks() {
-  console.log("BORROW URL =", "http://localhost:8080/api/borrow");
+  console.log("BORROW URL =", `${API_BASE}/borrow`);
   console.log("Fetching from:", `${API_BASE}/books`);
 
   const res = await fetch(`${API_BASE}/books`);
@@ -202,7 +204,7 @@ export async function updateUser(id, profileData) {
 export async function borrowBook(userId, bookId) {
 
   const response = await fetch(
-    "http://localhost:8080/api/borrow",
+  `${API_BASE}/borrow`,
     {
       method: "POST",
       headers: {
