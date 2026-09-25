@@ -207,12 +207,6 @@ export default function AdminDashboard({ onExitAdmin }) {
               Add Book
             </button>
 
-            {/* FIX: this was opened as <div className="books-admin-grid">
-                but closed as </table>, with <thead>/<tbody> in between --
-                invalid JSX. thead/tbody/tr/td must live inside a real
-                <table>, so this is now a proper <table className="admin-table">
-                matching the same pattern used in the Users and Borrow
-                Records tables below. */}
             <table className="admin-table">
               <thead>
                 <tr>

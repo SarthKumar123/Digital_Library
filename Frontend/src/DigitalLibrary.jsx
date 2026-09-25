@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import MyBooks from "./pages/MyBooks";
 import BorrowHistory from "./pages/BorrowHistory";
 import Fines from "./pages/Fines";
+import Wishlist from "./pages/Wishlist";
 import ChatBot from "./components/ChatBot";
 
 export default function DigitalLibrary({ onOpenAdmin }) {
@@ -24,20 +25,12 @@ export default function DigitalLibrary({ onOpenAdmin }) {
   const [activeDot, setActiveDot] = useState(0);
   const [route, setRoute] = useState("home");
   const [selectedBook, setSelectedBook] = useState(null);
+  const [homeSearch, setHomeSearch] = useState("");
+  const [searchSeed, setSearchSeed] = useState("");
 
-  // Real book data from the backend, plus loading/error state so the
-  // UI can show something sensible while the fetch is in flight or
-  // if the backend isn't reachable.
   const [books, setBooks] = useState([]);
   const [booksLoading, setBooksLoading] = useState(true);
   const [booksError, setBooksError] = useState("");
-
-  /**
-   * useEffect with an empty dependency array ([]) means "run this
-   * once, right after the component first renders" -- exactly like
-   * componentDidMount in older React class components. This is the
-   * standard place to kick off a data fetch when a page loads.
-   */
   useEffect(() => {
     fetchBooks()
       .then((data) => {
@@ -51,16 +44,7 @@ export default function DigitalLibrary({ onOpenAdmin }) {
       });
   }, []);
 
-  /**
-   * After a Google login, the backend does a full browser redirect
-   * back to us with the user's info in the URL's query string (e.g.
-   * ?oauthUserId=1&oauthName=Rahul%20Sharma&...). Since that's a
-   * fresh page load, none of our React state survives it -- so on
-   * every app load, we check: "did we just arrive here FROM a Google
-   * redirect?" If so, use those params to log the user in, then
-   * clean the URL so it doesn't linger in the address bar or get
-   * reused if the page is refreshed.
-   */
+ 
   useEffect(() => {
   const params = new URLSearchParams(window.location.search);
 
@@ -89,15 +73,33 @@ export default function DigitalLibrary({ onOpenAdmin }) {
   }
 }, []);
 
+
+  useEffect(() => {
+    if (books.length === 0) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const sharedBookId = params.get("book");
+
+    if (sharedBookId) {
+      const found = books.find((b) => String(b.id) === sharedBookId);
+      if (found) {
+        setSelectedBook(found);
+        setRoute("bookDetail");
+      }
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, [books]);
+
   const goHome = () => {
     setActiveNav("Home");
     setRoute("home");
   };
 
-  const goBooks = () => {
-    setActiveNav("Books");
-    setRoute("books");
-  };
+  const goBooks = (search = "") => {
+  setActiveNav("Books");
+  setSearchSeed(search);
+  setRoute("books");
+};
 
   const goDetail = (book) => {
     setSelectedBook(book);
@@ -109,12 +111,14 @@ export default function DigitalLibrary({ onOpenAdmin }) {
   setRoute("returnBook");
   };
 
-  const handleNavClick = (link) => {
-    setActiveNav(link);
-    const map = {
+      const handleNavClick = (link) => {
+      setActiveNav(link);
+      if (link === "Books") setSearchSeed("");
+      const map = {
       Home: "home",
       Books: "books",
       "My Books": "myBooks",
+      Wishlist: "wishlist",
       "Borrow History": "borrowHistory",
       Fines: "fines",
       Profile: "profile",
@@ -159,6 +163,7 @@ export default function DigitalLibrary({ onOpenAdmin }) {
                 localStorage.removeItem("userId");
                 setLoggedIn(false);
               }}
+              onGoToProfile={() => handleNavClick("Profile")}
             />
           ) : (
             <button className="login-btn" onClick={() => setShowLogin(true)}>
@@ -195,8 +200,8 @@ export default function DigitalLibrary({ onOpenAdmin }) {
 
       {/* Page content switches based on route */}
       {route === "books" && (
-        <Books books={books} loading={booksLoading} onSelectBook={goDetail} />
-      )}
+        <Books books={books} loading={booksLoading} onSelectBook={goDetail} initialSearch={searchSeed} />
+        )}
 
       {route === "bookDetail" && selectedBook && (
         <BookDetail
@@ -244,6 +249,10 @@ export default function DigitalLibrary({ onOpenAdmin }) {
 
       {route === "fines" && <Fines loggedIn={loggedIn} onLoginRequired={() => setShowLogin(true)} />}
 
+      {route === "wishlist" && (
+        <Wishlist loggedIn={loggedIn} onLoginRequired={() => setShowLogin(true)} onSelectBook={goDetail} />
+      )}
+
       {route === "home" && (
         <>
           {/* Hero */}
@@ -259,7 +268,7 @@ export default function DigitalLibrary({ onOpenAdmin }) {
                   Explore thousands of books across various categories. Borrow, read and
                   enhance your knowledge.
                 </p>
-                <button className="hero-cta" onClick={goBooks}>
+                <button className="hero-cta" onClick={() => goBooks()}>
                   Explore Books <ArrowRight size={16} />
                 </button>
               </div>
@@ -278,15 +287,25 @@ export default function DigitalLibrary({ onOpenAdmin }) {
 
           {/* Search */}
           <section className="search-section">
-            <div className="search-bar">
+            <form
+              className="search-bar"
+              onSubmit={(e) => {
+                e.preventDefault();
+                goBooks(homeSearch);
+              }}
+            >
               <div className="search-input-wrap">
                 <Search size={18} color="#9A9A88" />
-                <input placeholder="Search books by title, author, category or ISBN..." />
+                <input
+                  placeholder="Search books by title, author, category or ISBN..."
+                  value={homeSearch}
+                  onChange={(e) => setHomeSearch(e.target.value)}
+                />
               </div>
-              <button className="search-btn">
+              <button className="search-btn" type="submit">
                 <Search size={16} /> Search
               </button>
-            </div>
+            </form>
           </section>
 
           {/* Featured Books */}
@@ -313,7 +332,7 @@ export default function DigitalLibrary({ onOpenAdmin }) {
               </p>
             ) : (
              <div className="books-grid">
-  {books.slice(0, 6).map((b) => (
+  {books.slice(0, 12).map((b) => (
     <div key={b.id ?? b.title} className="book-card">
 
                   <div className="book-cover">
@@ -333,7 +352,15 @@ export default function DigitalLibrary({ onOpenAdmin }) {
                     />
                   </div>
 
-                  <div className="book-info">
+                  <div
+                    className="book-info"
+                    onClick={() => goDetail(b)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") goDetail(b);
+                    }}
+                  >
                     <div className="book-title">{b.title}</div>
                     <div className="book-author">{b.author}</div>
 
@@ -342,13 +369,9 @@ export default function DigitalLibrary({ onOpenAdmin }) {
                         {b.status}
                       </span>
 
-                      <button
-                        className="book-icon-btn"
-                        onClick={() => goDetail(b)}
-                        aria-label="View details"
-                      >
+                      <span className="book-icon-btn" aria-hidden="true">
                         <BookOpen size={14} color="#8FA05C" />
-                      </button>
+                      </span>
                     </div>
                   </div>
 
@@ -360,7 +383,7 @@ export default function DigitalLibrary({ onOpenAdmin }) {
         </>
       )}
 
-      <Footer />
+      <Footer onNavigate={handleNavClick} />
       <ChatBot />
 
       

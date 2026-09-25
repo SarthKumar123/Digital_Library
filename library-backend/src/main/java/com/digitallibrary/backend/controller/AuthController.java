@@ -55,10 +55,9 @@ public class AuthController {
         user.setRole("USER");
         user.setGoogleAccount(false);
 
-        // THE IMPORTANT LINE: we hash the plain-text password the
+        //we hash the plain-text password the
         // user sent us BEFORE it ever touches the database. From
-        // this point on, we never have access to their real
-        // password again -- only this one-way hash.
+        
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         user.setRole("USER");
@@ -85,17 +84,11 @@ public class AuthController {
         System.out.println("USER FOUND = " + user);
 
         if (user == null) {
-            // Deliberately vague message -- we don't want to reveal
-            // to an attacker WHICH part (email vs password) was
-            // wrong, since that helps them guess valid emails.
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid email or password");
         }
 
         // passwordEncoder.matches(rawPassword, hashedPassword) hashes
-        // the raw password the same way and compares -- this is the
-        // ONLY correct way to check a BCrypt password. We never
-        // decrypt the stored hash.
         System.out.println("PASSWORD ENTERED = " + request.getPassword());
         System.out.println("PASSWORD IN DB = " + user.getPassword());
         boolean passwordCorrect = passwordEncoder.matches(request.getPassword(), user.getPassword());
@@ -106,9 +99,7 @@ public class AuthController {
         }
 
         // Right now we just confirm login succeeded and return the
-        // user's info. In the next step, we'll also generate and
-        // return a JWT token here, which the React app will store
-        // and send on every future request to prove who it is.
+        // user's info. JWT
         AuthResponse response = new AuthResponse(
                 user.getId(), user.getName(), user.getEmail(), user.getRole()
         );

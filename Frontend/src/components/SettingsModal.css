@@ -1,0 +1,191 @@
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 32, 20, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.settings-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 380px;
+  max-width: 100%;
+  padding: 24px 24px 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.settings-header h2 {
+  font-size: 18px;
+  margin: 0;
+  color: #1e2014;
+}
+
+.settings-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9a9a88;
+}
+
+.settings-section {
+  margin-bottom: 20px;
+}
+
+.settings-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9a9a88;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.theme-toggle {
+  display: flex;
+  border: 1px solid #e4e4d4;
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.theme-toggle button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  border-radius: 7px;
+  padding: 9px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4c4c3e;
+  cursor: pointer;
+}
+
+.theme-toggle button.active {
+  background: #5b6b2e;
+  color: #fff;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0e6;
+}
+
+.setting-row:last-child {
+  border-bottom: none;
+}
+
+.setting-row-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #f4f6ec;
+  color: #5b6b2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.setting-row-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.setting-row-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #2e2e2e;
+}
+
+.setting-row-desc {
+  font-size: 11.5px;
+  color: #9a9a88;
+  margin-top: 1px;
+}
+
+/* Toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-track {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #dedecb;
+  border-radius: 22px;
+  transition: background 0.15s ease;
+}
+
+.switch-track::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+}
+
+.switch input:checked + .switch-track {
+  background: #5b6b2e;
+}
+
+.switch input:checked + .switch-track::before {
+  transform: translateX(16px);
+}
+
+.settings-note {
+  text-align: center;
+  font-size: 11px;
+  color: #9a9a88;
+  margin: 4px 0 0;
+}
+
+/* Compact mode: a small global density tweak toggled from Settings */
+.compact-mode .book-card,
+.compact-mode .side-card,
+.compact-mode .account-page,
+.compact-mode .wishlist-page {
+  --compact: 1;
+}
+
+.compact-mode .header {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.compact-mode .hero {
+  padding: 32px 40px;
+}

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Heart,
-  Share2,
   Star,
   User,
   Tag,
@@ -17,7 +16,8 @@ import {
 } from "lucide-react";
 
 import "./BookDetail.css";
-import { borrowBook } from "../api";
+import { borrowBook, checkWishlisted, addToWishlist, removeFromWishlist } from "../api";
+import ShareMenu from "./ShareMenu";
 
 export default function BookDetail({
   book,
@@ -29,8 +29,41 @@ export default function BookDetail({
 }) {
   const [borrowed, setBorrowed] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
+  const [wishlistBusy, setWishlistBusy] = useState(false);
 
   const stars = Math.round(book.rating || 0);
+
+ 
+  useEffect(() => {
+    if (!loggedIn) {
+      setWishlisted(false);
+      return;
+    }
+    const userId = localStorage.getItem("userId");
+    checkWishlisted(userId, book.id).then(setWishlisted);
+  }, [loggedIn, book.id]);
+
+  const handleToggleWishlist = async () => {
+    if (!loggedIn) {
+      onLoginRequired();
+      return;
+    }
+    const userId = localStorage.getItem("userId");
+    setWishlistBusy(true);
+    try {
+      if (wishlisted) {
+        await removeFromWishlist(userId, book.id);
+        setWishlisted(false);
+      } else {
+        await addToWishlist(userId, book.id);
+        setWishlisted(true);
+      }
+    } catch (error) {
+      console.error("WISHLIST ERROR:", error);
+    } finally {
+      setWishlistBusy(false);
+    }
+  };
 
   const handleBorrow = async () => {
 
@@ -66,6 +99,11 @@ export default function BookDetail({
     }
   }
 };
+
+  // A shareable link that actually opens straight to THIS book --
+  // DigitalLibrary.jsx watches for ?book=<id> in the URL on load and
+  // jumps straight to this page once the books list has loaded.
+  const shareUrl = `${window.location.origin}${window.location.pathname}?book=${book.id}`;
 
   return (
     <main className="detail-page">
@@ -131,19 +169,16 @@ export default function BookDetail({
             </div>
 
             <div className="detail-actions">
-              <button onClick={() => setWishlisted(!wishlisted)}>
+              <button onClick={handleToggleWishlist} disabled={wishlistBusy} type="button">
                 <Heart
                   size={15}
                   fill={wishlisted ? "#B33F3F" : "none"}
                   color={wishlisted ? "#B33F3F" : "#3C3C2E"}
                 />
-                Add to Wishlist
+                {wishlisted ? "Wishlisted" : "Add to Wishlist"}
               </button>
 
-              <button>
-                <Share2 size={15} />
-                Share
-              </button>
+              <ShareMenu title={book.title} url={shareUrl} />
             </div>
           </div>
 

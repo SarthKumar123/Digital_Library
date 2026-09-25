@@ -248,3 +248,80 @@ export async function getMyBooks(userId) {
 
   return await response.json();
 }
+
+/**
+ * Every borrow this user has ever made, returned or not -- for the
+ * Borrow History page. Unlike getMyBooks() above, this doesn't
+ * filter by status.
+ */
+export async function getBorrowHistory(userId) {
+  const response = await fetch(`${API_BASE}/borrow/history/${userId}`);
+
+  if (!response.ok) {
+    throw new Error("Failed to load borrow history");
+  }
+
+  return await response.json();
+}
+
+/* ===========================
+   WISHLIST APIs
+=========================== */
+
+/**
+ * Returns this user's wishlist, with each book already reshaped by
+ * adaptBook() so the Wishlist page can reuse the exact same book
+ * card styling as everywhere else in the app.
+ */
+export async function getWishlist(userId) {
+  const res = await fetch(`${API_BASE}/wishlist/user/${userId}`);
+
+  if (!res.ok) {
+    throw new Error("Failed to load wishlist");
+  }
+
+  const data = await res.json();
+  return data.map((item) => ({
+    wishlistItemId: item.id,
+    addedOn: item.addedOn,
+    ...adaptBook(item.book),
+  }));
+}
+
+/**
+ * Used on the Book Detail page to decide whether the heart icon
+ * should start filled in when the page loads.
+ */
+export async function checkWishlisted(userId, bookId) {
+  if (!userId) return false;
+  const res = await fetch(`${API_BASE}/wishlist/check?userId=${userId}&bookId=${bookId}`);
+  if (!res.ok) return false;
+  const data = await res.json();
+  return data.wishlisted;
+}
+
+export async function addToWishlist(userId, bookId) {
+  const res = await fetch(`${API_BASE}/wishlist`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId, bookId }),
+  });
+
+  if (!res.ok && res.status !== 409) {
+    throw new Error("Failed to add to wishlist");
+  }
+
+  return true;
+}
+
+export async function removeFromWishlist(userId, bookId) {
+  const res = await fetch(`${API_BASE}/wishlist/user/${userId}/book/${bookId}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to remove from wishlist");
+  }
+
+  return true;
+}

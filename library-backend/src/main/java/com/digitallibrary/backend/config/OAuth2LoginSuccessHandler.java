@@ -42,15 +42,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             return userRepository.save(newUser);
         });
 
-        // URLEncoder makes sure special characters in the name/email
-        // (spaces, accented letters, "&", etc.) don't accidentally
-        // break the URL's query string structure -- e.g. a space
-        // becomes "%20" instead of literally splitting the URL.
-        //
-        // We now send name, email, AND role back -- everything the
-        // frontend needs to display a logged-in state immediately,
-        // without a second request. (Once JWT is back, we'll add a
-        // "token" param here too, instead of trusting the raw id.)
         String redirectUrl = String.format(
                 "http://localhost:5173/?oauthUserId=%s&oauthName=%s&oauthEmail=%s&oauthRole=%s",
                 user.getId(),

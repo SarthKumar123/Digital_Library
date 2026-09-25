@@ -75,6 +75,18 @@ public class BorrowController {
 
         return borrowRepo.findByUserIdAndStatus(userId, "BORROWED");
     }
+
+    /**
+     * GET /api/borrow/history/{userId}
+     * Unlike /user/{userId} above (which only returns currently
+     * BORROWED books, for the My Books page), this returns EVERY
+     * record for this user regardless of status -- both currently
+     * borrowed and already returned -- for the Borrow History page.
+     */
+    @GetMapping("/history/{userId}")
+    public List<BorrowRecord> getBorrowHistory(@PathVariable Long userId) {
+        return borrowRepo.findByUserId(userId);
+    }
     @PutMapping("/return/{borrowId}")
     public String returnBook(@PathVariable Long borrowId) {
 

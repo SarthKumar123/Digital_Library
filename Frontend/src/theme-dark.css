@@ -1,0 +1,175 @@
+/* ===================================================================
+   DARK THEME
+   Activated by adding data-theme="dark" to the <html> element
+   (see SettingsModal.jsx / App.jsx). Since the rest of the app's
+   CSS files use plain hex colors rather than CSS variables, this
+   file works by overriding the same class names with dark-mode
+   colors, scoped under the [data-theme="dark"] attribute selector --
+   so nothing here affects the app at all until dark mode is on.
+   =================================================================== */
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* ---------- Base page / shell ---------- */
+[data-theme="dark"] body,
+[data-theme="dark"] .page,
+[data-theme="dark"] .admin-shell,
+[data-theme="dark"] .account-page,
+[data-theme="dark"] .books-page,
+[data-theme="dark"] .detail-page,
+[data-theme="dark"] .return-page,
+[data-theme="dark"] .wishlist-page {
+  background: #181a13;
+  color: #e7e7db;
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5 {
+  color: #f2f2e8 !important;
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] div {
+  color: inherit;
+}
+
+/* ---------- Header / nav ---------- */
+[data-theme="dark"] .header {
+  background: #20231a;
+  border-bottom: 1px solid #2e3224;
+}
+
+[data-theme="dark"] .brand-text {
+  color: #f2f2e8 !important;
+}
+
+[data-theme="dark"] .nav-link {
+  color: #c7c7b8 !important;
+}
+
+[data-theme="dark"] .nav-link.active {
+  background: #5b6b2e;
+  color: #fff !important;
+}
+
+/* ---------- Generic white cards used everywhere ---------- */
+[data-theme="dark"] .book-card,
+[data-theme="dark"] .side-card,
+[data-theme="dark"] .detail-cover-card,
+[data-theme="dark"] .profile-card,
+[data-theme="dark"] .profile-fields,
+[data-theme="dark"] .profile-stat,
+[data-theme="dark"] .account-table-card,
+[data-theme="dark"] .account-logged-out,
+[data-theme="dark"] .wishlist-card,
+[data-theme="dark"] .wishlist-empty,
+[data-theme="dark"] .books-filters,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .admin-table-card,
+[data-theme="dark"] .add-book-card,
+[data-theme="dark"] .my-book-card,
+[data-theme="dark"] .modal-card,
+[data-theme="dark"] .return-card,
+[data-theme="dark"] .settings-modal {
+  background: #22251b !important;
+  border-color: #33372760 !important;
+  color: #e7e7db;
+}
+
+[data-theme="dark"] .book-title,
+[data-theme="dark"] .wishlist-title,
+[data-theme="dark"] .book-info .book-title,
+[data-theme="dark"] .profile-card-name,
+[data-theme="dark"] .modal-title {
+  color: #f2f2e8 !important;
+}
+
+[data-theme="dark"] .book-author,
+[data-theme="dark"] .wishlist-author,
+[data-theme="dark"] .profile-card-email,
+[data-theme="dark"] .modal-subtitle,
+[data-theme="dark"] .copies-text,
+[data-theme="dark"] .detail-tagline {
+  color: #a7a795 !important;
+}
+
+/* ---------- Inputs ---------- */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: #181a13;
+  border-color: #3a3e2c !important;
+  color: #e7e7db !important;
+}
+
+[data-theme="dark"] input::placeholder {
+  color: #6f7360;
+}
+
+/* ---------- Footer ---------- */
+[data-theme="dark"] .footer,
+[data-theme="dark"] .admin-footer {
+  background: #20231a;
+}
+
+[data-theme="dark"] .footer-col-item,
+[data-theme="dark"] .footer-tagline,
+[data-theme="dark"] .admin-footer-item {
+  color: #a7a795;
+}
+
+/* ---------- Admin sidebar ---------- */
+[data-theme="dark"] .admin-sidebar,
+[data-theme="dark"] .admin-header {
+  background: #20231a;
+  border-color: #2e3224;
+}
+
+[data-theme="dark"] .admin-nav-item {
+  color: #c7c7b8;
+}
+
+[data-theme="dark"] .admin-nav-item.active {
+  background: #34401f;
+  color: #cfe0a0;
+}
+
+/* ---------- Dropdowns / popovers ---------- */
+[data-theme="dark"] .profile-dropdown,
+[data-theme="dark"] .share-dropdown {
+  background: #22251b;
+  border-color: #33372760;
+}
+
+[data-theme="dark"] .profile-menu-item,
+[data-theme="dark"] .share-option {
+  color: #e7e7db;
+}
+
+[data-theme="dark"] .profile-menu-item:hover,
+[data-theme="dark"] .share-option:hover {
+  background: #2c3021;
+}
+
+/* ---------- Chatbot ---------- */
+[data-theme="dark"] .chatbot-window {
+  background: #20231a;
+}
+
+[data-theme="dark"] .chatbot-messages {
+  background: #181a13;
+}
+
+[data-theme="dark"] .chatbot-bubble.bot {
+  background: #22251b;
+  border-color: #33372760;
+  color: #e7e7db;
+}
+
+/* ---------- Hero banner keeps its green gradient on purpose ---------- */

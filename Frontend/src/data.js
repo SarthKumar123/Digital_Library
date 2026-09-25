@@ -1,4 +1,4 @@
-export const NAV_LINKS = ["Home", "Books", "My Books", "Borrow History", "Fines", "Profile"];
+export const NAV_LINKS = ["Home", "Books", "My Books", "Wishlist", "Borrow History", "Fines", "Profile"];
 
 export const BOOKS = [
   {

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import {
   Search,
   RotateCcw,
@@ -14,8 +15,12 @@ import "./Books.css";
 const SORT_OPTIONS = ["Newest First", "Oldest First", "Title A-Z", "Title Z-A"];
 const AVAILABILITY_OPTIONS = ["Availability", "Available", "Borrowed"];
 
-export default function Books({ books, loading, onSelectBook }) {
-  const [query, setQuery] = useState("");
+export default function Books({ books, loading, onSelectBook, initialSearch = "" }) {
+  const [query, setQuery] = useState(initialSearch);
+
+  useEffect(() => {
+    setQuery(initialSearch);
+  }, [initialSearch]);
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [author, setAuthor] = useState(AUTHORS[0]);
   const [availability, setAvailability] = useState(AVAILABILITY_OPTIONS[0]);

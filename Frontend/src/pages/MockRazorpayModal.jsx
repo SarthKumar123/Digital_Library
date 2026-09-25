@@ -9,17 +9,7 @@ const METHODS = [
   { id: "wallet", label: "Wallet", icon: Wallet },
 ];
 
-/**
- * A purely visual stand-in for the Razorpay checkout widget --
- * no network calls, no real payment gateway involved. It exists so
- * the app demonstrates a realistic "pay a fine" flow for a class
- * project without needing real payment gateway credentials/keys.
- *
- * Flow: pick a method -> fill dummy fields -> click Pay -> a couple
- * seconds of a fake "processing" spinner -> success checkmark ->
- * calls onSuccess(), which the parent uses to actually complete the
- * book return in the real backend.
- */
+
 export default function MockRazorpayModal({ amount, merchantName = "Digital Library", onClose, onSuccess }) {
   const [method, setMethod] = useState("upi");
   const [upiId, setUpiId] = useState("");
