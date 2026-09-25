@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {
-	    "http://localhost:5173",
-	    "http://localhost:5174",
-	    "http://localhost:5175",
-	    "http://localhost:5178"
-	})
+//@CrossOrigin(origins = {
+//	    "http://localhost:5173",
+//	    "http://localhost:5174",
+//	    "http://localhost:5175",
+//	    "http://localhost:5178"
+//	})
 public class AuthController {
 
     private final UserRepository userRepository;
@@ -80,29 +80,27 @@ public class AuthController {
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElse(null);
-        System.out.println("EMAIL = " + request.getEmail());
-        System.out.println("USER FOUND = " + user);
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid email or password");
         }
 
-        // passwordEncoder.matches(rawPassword, hashedPassword) hashes
-        System.out.println("PASSWORD ENTERED = " + request.getPassword());
-        System.out.println("PASSWORD IN DB = " + user.getPassword());
-        boolean passwordCorrect = passwordEncoder.matches(request.getPassword(), user.getPassword());
-        System.out.println("PASSWORD MATCH = " + passwordCorrect);
+        boolean passwordCorrect =
+                passwordEncoder.matches(request.getPassword(), user.getPassword());
+
         if (!passwordCorrect) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid email or password");
         }
 
-        // Right now we just confirm login succeeded and return the
-        // user's info. JWT
         AuthResponse response = new AuthResponse(
-                user.getId(), user.getName(), user.getEmail(), user.getRole()
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole()
         );
+
         return ResponseEntity.ok(response);
     }
 }

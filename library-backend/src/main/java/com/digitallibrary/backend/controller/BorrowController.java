@@ -16,12 +16,12 @@ import com.digitallibrary.backend.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/borrow")
-@CrossOrigin(origins = {
-	    "http://localhost:5173",
-	    "http://localhost:5174",
-	    "http://localhost:5175",
-	    "http://localhost:5178"
-	})
+//@CrossOrigin(origins = {
+//	    "http://localhost:5173",
+//	    "http://localhost:5174",
+//	    "http://localhost:5175",
+//	    "http://localhost:5178"
+//	})
 public class BorrowController {
 
     @Autowired
@@ -76,13 +76,7 @@ public class BorrowController {
         return borrowRepo.findByUserIdAndStatus(userId, "BORROWED");
     }
 
-    /**
-     * GET /api/borrow/history/{userId}
-     * Unlike /user/{userId} above (which only returns currently
-     * BORROWED books, for the My Books page), this returns EVERY
-     * record for this user regardless of status -- both currently
-     * borrowed and already returned -- for the Borrow History page.
-     */
+    
     @GetMapping("/history/{userId}")
     public List<BorrowRecord> getBorrowHistory(@PathVariable Long userId) {
         return borrowRepo.findByUserId(userId);
