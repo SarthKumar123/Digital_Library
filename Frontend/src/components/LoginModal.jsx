@@ -38,12 +38,13 @@ const submit = async (e) => {
 };
 
   const handleGoogleLogin = () => {
-    // Full page redirect to your Spring Boot backend, which then
-    // redirects to Google. This is NOT a fetch() call -- OAuth2
-    // login has to happen as a real browser navigation, since Google
-    // needs to show its own login page.
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
-  };
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL ||
+    "http://localhost:8080";
+
+  window.location.href =
+    `${backendUrl}/oauth2/authorization/google`;
+};
 
   return (
     <div className="modal-overlay" onClick={onClose}>
