@@ -42,9 +42,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         String name = oauth2User.getAttribute("name");
 
         User user = userRepository.findByEmail(email).orElseGet(() -> {
-
             User newUser = new User();
-
             newUser.setEmail(email);
             newUser.setName(name);
             newUser.setGoogleAccount(true);
