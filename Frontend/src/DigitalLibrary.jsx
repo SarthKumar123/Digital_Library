@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Search, Bell, ArrowRight, BookOpen } from "lucide-react";
 import "./DigitalLibrary.css";
 import { NAV_LINKS } from "./data";
+import { DEMO_MODE, demo } from "./demo";
 import { fetchBooks } from "./api";
 import logoIcon from "./assets/logo-icon.png";
 import LoginModal from "./components/LoginModal";
@@ -18,8 +19,8 @@ import Wishlist from "./pages/Wishlist";
 import ChatBot from "./components/ChatBot";
 
 export default function DigitalLibrary({ onOpenAdmin }) {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [userName, setUserName] = useState("Rahul Sharma");
+  const [loggedIn, setLoggedIn] = useState(DEMO_MODE);
+  const [userName, setUserName] = useState(DEMO_MODE ? demo.getUser().name : "Reader");
   const [showLogin, setShowLogin] = useState(false);
   const [activeNav, setActiveNav] = useState("Home");
   const [activeDot, setActiveDot] = useState(0);
@@ -32,6 +33,7 @@ export default function DigitalLibrary({ onOpenAdmin }) {
   const [booksLoading, setBooksLoading] = useState(true);
   const [booksError, setBooksError] = useState("");
   useEffect(() => {
+    if (DEMO_MODE) localStorage.setItem("userId", "1");
     fetchBooks()
       .then((data) => {
         setBooks(data);
@@ -91,11 +93,13 @@ export default function DigitalLibrary({ onOpenAdmin }) {
   }, [books]);
 
   const goHome = () => {
+    if (DEMO_MODE) fetchBooks().then(setBooks);
     setActiveNav("Home");
     setRoute("home");
   };
 
   const goBooks = (search = "") => {
+  if (DEMO_MODE) fetchBooks().then(setBooks);
   setActiveNav("Books");
   setSearchSeed(search);
   setRoute("books");
@@ -175,6 +179,7 @@ export default function DigitalLibrary({ onOpenAdmin }) {
 
       {showLogin && (
   <LoginModal
+    onClose={() => setShowLogin(false)}
     onLogin={(user) => {
 
       if (user.role === "ADMIN") {
@@ -265,7 +270,7 @@ export default function DigitalLibrary({ onOpenAdmin }) {
                   Learn More
                 </h1>
                 <p className="hero-desc">
-                  Explore thousands of books across various categories. Borrow, read and
+                  Explore our curated collection across various categories. Borrow, read and
                   enhance your knowledge.
                 </p>
                 <button className="hero-cta" onClick={() => goBooks()}>

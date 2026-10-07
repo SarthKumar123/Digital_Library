@@ -22,7 +22,7 @@ export default function ReturnBook({
 }) {
   const actualBook = book.book || book;
 
-  const lateDays = 4;
+  const lateDays = book.dueDate ? Math.max(0, Math.ceil((new Date(new Date().toISOString().slice(0, 10)) - new Date(book.dueDate)) / 86400000)) : 0;
   const fine = lateDays * 10;
 
   const [showPayment, setShowPayment] = useState(false);
@@ -170,10 +170,10 @@ export default function ReturnBook({
         <div className="return-actions">
           <button
             className="pay-return-btn"
-            onClick={() => setShowPayment(true)}
+            onClick={() => fine ? setShowPayment(true) : handleReturn()}
           >
             <CreditCard size={16} />
-            Pay ₹{fine} & Return
+            {fine ? `Simulate ₹${fine} payment & Return` : "Return Book"}
           </button>
 
           <button
@@ -187,7 +187,7 @@ export default function ReturnBook({
 
         <p className="secure-note">
           <Lock size={12} />
-          Your payment is secure and encrypted.
+          Simulated checkout. No money is charged.
         </p>
       </div>
 

@@ -1,3 +1,4 @@
+import { DEMO_MODE, demo } from "../demo";
 import React, { useState, useEffect } from "react";
 import { User, LogIn } from "lucide-react";
 import { getUser, updateUser } from "../api";
@@ -144,21 +145,21 @@ export default function Profile({
 
       <div className="profile-stats">
         <div className="profile-stat">
-          <div className="profile-stat-value">3</div>
+          <div className="profile-stat-value">{DEMO_MODE ? demo.getMyBooks().length : 3}</div>
           <div className="profile-stat-label">
             Books Currently Borrowed
           </div>
         </div>
 
         <div className="profile-stat">
-          <div className="profile-stat-value">18</div>
+          <div className="profile-stat-value">{DEMO_MODE ? demo.getBorrowHistory().filter(r => r.status === "RETURNED").length : 18}</div>
           <div className="profile-stat-label">
             Total Books Read
           </div>
         </div>
 
         <div className="profile-stat">
-          <div className="profile-stat-value">₹40</div>
+          <div className="profile-stat-value">₹{DEMO_MODE ? demo.getFines().filter(f => f.status !== "Paid (simulated)").reduce((total, f) => total + f.amount, 0) : 40}</div>
           <div className="profile-stat-label">
             Outstanding Fines
           </div>

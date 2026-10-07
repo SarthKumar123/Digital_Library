@@ -1,3 +1,4 @@
+import { DEMO_MODE, demo } from "../demo";
 import React, { useState } from "react";
 import { BookOpen, X, Loader2 } from "lucide-react";
 import { signup, login } from "../api";
@@ -45,6 +46,8 @@ const submit = async (e) => {
   window.location.href =
     `${backendUrl}/oauth2/authorization/google`;
 };
+
+  if (DEMO_MODE) return <div className="modal-overlay"><div className="modal-card"><h2>Explore as Demo Reader</h2><p>No account or password needed. Changes stay in this browser.</p><button className="modal-submit" onClick={() => onLogin(demo.getUser())}>Enter Reader Demo</button><button className="modal-close" onClick={onClose}>Close</button></div></div>;
 
   return (
     <div className="modal-overlay" onClick={onClose}>

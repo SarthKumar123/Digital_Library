@@ -1,0 +1,4 @@
+.demo-banner { background:#eef2e4; color:#29331e; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; font:14px system-ui; border-bottom:1px solid #b8c4a0; }
+.demo-banner div { display:flex; gap:8px; flex-wrap:wrap; }
+.demo-banner button { border:1px solid #52613b; background:white; color:#29331e; border-radius:6px; padding:8px 12px; cursor:pointer; }
+@media(max-width:700px) { .demo-banner { padding:12px; } .header { flex-wrap:wrap; } .nav { width:100%; overflow-x:auto; } }

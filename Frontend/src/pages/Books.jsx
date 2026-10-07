@@ -48,8 +48,10 @@ export default function Books({ books, loading, onSelectBook, initialSearch = ""
     const matchesAuthor =
       author === AUTHORS[0] || b.author === author;
 
-    return matchesQuery && matchesCategory && matchesAuthor;
-  });
+    return matchesQuery && matchesCategory && matchesAuthor && (availability === "Availability" || b.status === availability);
+  }).sort((a, b) => sort === "Title A-Z" ? a.title.localeCompare(b.title) : sort === "Title Z-A" ? b.title.localeCompare(a.title) : sort === "Oldest First" ? a.id - b.id : b.id - a.id);
+  const pageCount = Math.max(1, Math.ceil(filtered.length / 12));
+  const currentPage = Math.min(page, pageCount);
 
   return (
     <main className="books-page">
@@ -106,7 +108,7 @@ export default function Books({ books, loading, onSelectBook, initialSearch = ""
 
       <div className="books-result-bar">
         <span>
-          Showing 1 – {filtered.length} of {filtered.length} books
+          Showing {filtered.length ? (currentPage - 1) * 12 + 1 : 0} – {Math.min(currentPage * 12, filtered.length)} of {filtered.length} books
         </span>
 
         <div className="view-toggle">
@@ -138,7 +140,7 @@ export default function Books({ books, loading, onSelectBook, initialSearch = ""
         </p>
       ) : (
         <div className={view === "grid" ? "books-grid" : "books-list"}>
-          {filtered.map((b) => (
+          {filtered.slice((currentPage - 1) * 12, currentPage * 12).map((b) => (
             <div key={b.id ?? b.title} className="book-card">
               <div className="book-cover">
                 <img
@@ -173,38 +175,11 @@ export default function Books({ books, loading, onSelectBook, initialSearch = ""
         </div>
       )}
 
-      <div className="pagination">
-        <button
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
-        >
-          <ArrowLeft size={16} />
-        </button>
-
-        {[1, 2, 3].map((n) => (
-          <button
-            key={n}
-            className={page === n ? "active" : ""}
-            onClick={() => setPage(n)}
-          >
-            {n}
-          </button>
-        ))}
-
-        <span className="pagination-dots">...</span>
-
-        <button
-          className={page === 13 ? "active" : ""}
-          onClick={() => setPage(13)}
-        >
-          13
-        </button>
-
-        <button
-          onClick={() => setPage((p) => Math.min(13, p + 1))}
-        >
-          <ArrowRight size={16} />
-        </button>
-      </div>
+      {pageCount > 1 && <div className="pagination">
+        <button disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)} aria-label="Previous page"><ArrowLeft size={16}/></button>
+        <span>{currentPage} / {pageCount}</span>
+        <button disabled={currentPage === pageCount} onClick={() => setPage(currentPage + 1)} aria-label="Next page"><ArrowRight size={16}/></button>
+      </div>}
     </main>
   );
 }

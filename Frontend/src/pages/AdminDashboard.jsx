@@ -1,3 +1,5 @@
+import { DEMO_MODE, demo } from "../demo";
+import { addBook as createBook, deleteBook as removeBook } from "../api";
 import React, { useState, useEffect } from "react";
 import {
   BookOpen,
@@ -38,21 +40,28 @@ export default function AdminDashboard({ onExitAdmin }) {
   }, []);
 
   const loadBooks = async () => {
+    if (DEMO_MODE) { setBooks(demo.fetchBooks()); return; }
     const res = await fetch("http://localhost:8080/api/books");
     setBooks(await res.json());
   };
 
   const loadUsers = async () => {
+    if (DEMO_MODE) { setUsers(demo.getUsers()); return; }
     const res = await fetch("http://localhost:8080/api/users");
     setUsers(await res.json());
   };
 
   const loadRecords = async () => {
+    if (DEMO_MODE) { setRecords(demo.getRecords()); return; }
     const res = await fetch("http://localhost:8080/api/borrow/all");
     setRecords(await res.json());
   };
 
   const addBook = async () => {
+    if (DEMO_MODE) {
+      try { await createBook({ ...form, totalCopies: Number(form.quantity), availableCopies: Number(form.quantity) }); await loadBooks(); setForm({ title:"", author:"", category:"", isbn:"", quantity:"", imageUrl:"" }); } catch (error) { alert(error.message); }
+      return;
+    }
     await fetch("http://localhost:8080/api/books", {
       method: "POST",
       headers: {
@@ -82,6 +91,7 @@ export default function AdminDashboard({ onExitAdmin }) {
   };
 
   const deleteBook = async (id) => {
+    if (DEMO_MODE) { try { await removeBook(id); await loadBooks(); } catch (error) { alert(error.message); } return; }
     await fetch(`http://localhost:8080/api/books/${id}`, {
       method: "DELETE"
     });
@@ -90,6 +100,7 @@ export default function AdminDashboard({ onExitAdmin }) {
   };
 
   const deleteUser = async (id) => {
+    if (DEMO_MODE) { alert("The sample reader is needed for this demo. Use Reset Demo to restore their data."); return; }
     await fetch(`http://localhost:8080/api/users/${id}`, {
       method: "DELETE"
     });

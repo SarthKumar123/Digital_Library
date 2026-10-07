@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { DEMO_MODE, resetDemo } from "./demo";
+import "./demo.css";
 import DigitalLibrary from "./DigitalLibrary";
 import AdminDashboard from "./pages/AdminDashboard";
 import "./theme-dark.css";
@@ -17,11 +19,14 @@ function App() {
     document.documentElement.classList.toggle("compact-mode", compact);
   }, []);
 
-  if (mode === "admin") {
-    return <AdminDashboard onExitAdmin={() => setMode("site")} />;
-  }
-
-  return <DigitalLibrary onOpenAdmin={() => setMode("admin")} />;
+  return <>
+    {DEMO_MODE && <aside className="demo-banner" aria-label="Demo controls">
+      <span><strong>Interactive demo</strong> · Sample data saved in this browser. No real login or payments.</span>
+      <div><button onClick={() => { localStorage.setItem("userId", "1"); setMode("site"); }}>Reader Demo</button>
+      <button onClick={() => setMode("admin")}>Admin Demo</button>
+      <button onClick={resetDemo}>Reset Demo</button></div>
+    </aside>}
+    {mode === "admin" ? <AdminDashboard onExitAdmin={() => setMode("site")} /> : <DigitalLibrary onOpenAdmin={() => setMode("admin")} />}
+  </>;
 }
-
 export default App;

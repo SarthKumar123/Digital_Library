@@ -27,6 +27,7 @@ export default function BookDetail({
   onGoToReturn,
   onLoginRequired
 }) {
+  const [borrowRecord, setBorrowRecord] = useState(null);
   const [borrowed, setBorrowed] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
   const [wishlistBusy, setWishlistBusy] = useState(false);
@@ -87,6 +88,8 @@ export default function BookDetail({
     console.log("BORROW RESPONSE =", record);
 
     alert("Book borrowed successfully");
+    localStorage.setItem("currentBorrowRecord", JSON.stringify(record));
+    setBorrowRecord(record);
     setBorrowed(true);
 
   } catch (error) {
@@ -252,7 +255,7 @@ export default function BookDetail({
                 Enjoy reading and keep learning.
               </p>
 
-              <button className="side-btn primary">
+              <button className="side-btn primary" onClick={() => alert("This demo tracks borrowing; full book content is not provided.")}>
                 <BookOpen size={15} />
                 Read Book
               </button>
@@ -260,11 +263,7 @@ export default function BookDetail({
               <button
                 className="side-btn outline"
                 onClick={() => {
-                  const record = JSON.parse(
-                    localStorage.getItem("currentBorrowRecord")
-                  );
-
-                  onGoToReturn(record);
+                  onGoToReturn(borrowRecord);
                 }}
               >
                 <RotateCcw size={15} />

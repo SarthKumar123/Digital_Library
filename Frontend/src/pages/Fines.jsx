@@ -1,3 +1,4 @@
+import { DEMO_MODE, demo } from "../demo";
 import React, { useState } from "react";
 import { LogIn } from "lucide-react";
 import "./Account.css";
@@ -8,6 +9,7 @@ const FINES = [
 ];
 
 export default function Fines({ loggedIn, onLoginRequired }) {
+  const fines = DEMO_MODE ? demo.getFines() : FINES;
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const handlePayment = () => {
@@ -81,7 +83,7 @@ export default function Fines({ loggedIn, onLoginRequired }) {
           </thead>
 
           <tbody>
-            {FINES.map((f) => (
+            {fines.map((f) => (
               <tr key={f.book}>
                 <td>{f.book}</td>
                 <td>₹{f.amount}</td>

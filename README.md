@@ -1,3 +1,23 @@
+# Digital Library
+
+[Try the interactive demo — no login required](https://sarthkumar123.github.io/Digital_Library/)
+
+The GitHub Pages deployment runs entirely in your browser. Explore the catalog, search books, borrow and return, manage a wishlist, edit a sample profile, and open Admin Demo to add or delete catalog entries. Reset Demo restores the sample collection. Demo state is local to each browser and is not an authenticated account. Payment screens are simulations; no money is charged. Google sign-in is available only when running the full backend. No Railway service is required for the demo.
+
+The original Java/Spring Boot/MySQL backend remains in `library-backend/`. The frontend selects browser storage when `VITE_DEMO_MODE=true`; `.env.production` enables it for GitHub Pages.
+
+## Run
+
+```sh
+cd Frontend
+npm ci
+VITE_DEMO_MODE=true npm run dev
+```
+
+For the full backend, set `VITE_DEMO_MODE=false`, `VITE_API_BASE_URL` and `VITE_BACKEND_URL` for your running Spring Boot service. Build with `npm run build`. GitHub Actions publishes the demo from main.
+
+## Original full-stack project documentation
+
 \# 📚 Digital Library Management System
 
 
